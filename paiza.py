@@ -7,7 +7,7 @@ import numpy as np
 #ループする時に使う
 BASE_DOMAIN = "https://paiza.jp/career/job_offers/dev_language/"
 HEADERS = {
-    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
+    "user-agent": ""
 }
 ALL_DATA = []
 
