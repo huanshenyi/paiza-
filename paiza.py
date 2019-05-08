@@ -1,8 +1,9 @@
 import requests
 from lxml import etree
-from pyecharts import Bar
+from pyecharts.charts import Bar
+from pyecharts import options as opts
 import numpy as np
-
+from pyecharts.globals import ThemeType
 
 #ループする時に使う
 BASE_DOMAIN = "https://paiza.jp/career/job_offers/dev_language/"
@@ -74,16 +75,26 @@ def main():
     #b.sort(key=money_lank, reverse=True)
 
 
-    datas = b[0:15]
+    datas = b[0:30]
 
     cities = list(map(lambda x: x['company'], datas))
     temps = list(map(lambda x: x['money'], datas))
+    print(cities)
+    print(temps)
 
     npmany = round(np.mean(temps))
+    bar = (
+        Bar(init_opts=opts.InitOpts(theme=ThemeType.LIGHT, width="1800px"))
+            .add_xaxis(cities)
+            .add_yaxis(keyword, temps)
+            .set_global_opts(title_opts=opts.TitleOpts(title="Paizaから取得", subtitle=keyword), toolbox_opts=opts.ToolboxOpts(is_show=True),
+                             xaxis_opts=opts.AxisOpts(interval=0, axislabel_opts=opts.LabelOpts(rotate=50)))
 
-    chart = Bar("paiza求人年収ランキング", keyword,width=1200)
-    chart.add("%s平均年収%s"%(keyword,npmany), cities, temps,xaxis_interval=0, xaxis_rotate=20,yaxis_formatter="万円")
-    chart.render("paiza%s.html"%keyword)
+    )
+    bar.render()
+    # chart = Bar("paiza求人年収ランキング", keyword)
+    # chart.add("%s平均年収%s"%(keyword,npmany), cities, temps,xaxis_interval=0, xaxis_rotate=20,yaxis_formatter="万円")
+    # chart.render("paiza%s.html"%keyword)
 
 if __name__== "__main__":
     main()
